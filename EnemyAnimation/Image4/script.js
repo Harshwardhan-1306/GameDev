@@ -12,26 +12,34 @@ let gameFrame = 0;
 class Enemy {
     constructor() {
         this.enemyImage = new Image();
-        this.enemyImage.src = "./enemies/enemy2.png";
+        this.enemyImage.src = "./enemies/enemy4.png";
 
         this.speed = (Math.random() * 0.1) + 1;
-        this.spriteWidth = 266;
-        this.spriteHeight = 188;
+        this.spriteWidth = 213;
+        this.spriteHeight = 212;
         this.width = this.spriteWidth / 2.5;
         this.height = this.spriteHeight / 2.5;
         this.x = Math.random() * (canvas.width - this.width);
         this.y = Math.random() * (canvas.height - this.height);
 
+        this.newX = Math.random() * (canvas.width - this.width);
+        this.newY = Math.random() * (canvas.height - this.height);
+
         this.frame = 0;
         this.flapSpeed = Math.floor(Math.random() * 4 + 1);
-        this.angle = 0;
-        this.angleSpeed = Math.random() * 0.1;
-        this.curve = Math.random() * 3;
+        this.interval = Math.floor(Math.random() * 200 + 50)
     }
     update() {
-        this.x -= this.speed;
-        this.y += this.curve * Math.sin(this.angle);
-        this.angle += this.angleSpeed;
+        if(gameFrame % this.interval === 0) {
+            this.newX = Math.random() * (canvas.width - this.width);
+            this.newY = Math.random() * (canvas.height - this.height);
+        }
+
+        let dx = this.x - this.newX;
+        let dy = this.y - this.newY;
+        
+        this.x -= dx/200;
+        this.y -= dy/200;
         //animate sprite
         if(this.x + this.width < 0) this.x = canvas.width;
 
